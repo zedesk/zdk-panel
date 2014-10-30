@@ -1,0 +1,29 @@
+{
+  "name": "zdk-panel",
+  "version": "0.1.0",
+  "authors": [
+    "zedesk <dev@zedesk.net>"
+  ],
+  "description": "A panel element",
+  "main": "zdk-panel.html",
+  "keywords": [
+    "web-components",
+    "web",
+    "component",
+    "polymer"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "../",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#0.4.2",
+    "core-icon": "Polymer/core-icon#~0.4.2",
+    "core-iconset-svg": "Polymer/core-iconset-svg#~0.4.2"
+  }
+}
