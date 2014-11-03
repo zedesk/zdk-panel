@@ -17,44 +17,44 @@
 	</svg>
 </core-iconset-svg>
 
-<polymer-element name="zdk-panel" attributes="heading class height collapsable collapsed collapsecolor">
-    <template>
-        <style>
-        :host { 
-            margin-bottom:10px;
-            display:block;
-            background:white;
-            position:relative;
-            box-sizing:border-box;
-
-        }
-        div#panel {
-            position:relative;
-            height:100%;
-            box-sizing:border-box;
-            display:flex;
-            flex-direction:column;
+<polymer-element name="zdk-panel" attributes="heading height bgcolor color collapsable collapsed collapsecolor">
+	<template>
+		<style>
+		:host { 
+			margin-bottom:10px;
+			display:block;
+			background:white;
+			position:relative;
+			box-sizing:border-box;
+		}
+		div#panel {
+			position:relative;
+			height:100%;
+			box-sizing:border-box;
+			display:flex;
+			flex-direction:column;
 			display:-webkit-flex;
 			-webkit-flex-direction:column;
 			display: -ms-flexbox;
 			-ms-flex-direction: column;
-        }
+		}
 
-        header {
+		header {
 			height: 40px;
-			color: white;
+			color: {{color}};
 			padding-left: 10px;
-			background: #428bca;
-            color:white;
+			background: {{bgcolor}};
 			-moz-user-select:-moz-none;
-            font-size:1.2em;
+			-webkit-user-select:none;
+			-ms-user-select: none;
+			font-size:1.2em;
 			display: -ms-flexbox;
 			display:flex;
 			display:-webkit-flex;
-            align-items: center;
-            -ms-flex-align:center;
+			align-items: center;
+			-ms-flex-align:center;
 			-webkit-align-items:center;
-        }
+		}
 		header > span {
 			display:inline-block;
 			-webkit-flex:1;
@@ -64,42 +64,39 @@
 			text-overflow:ellipsis;
 			overflow:hidden;
 		}
-        div#content {
+		div#content {
 			-webkit-flex:1;
 			-ms-flex:1;
 			flex:1;
-            /* -ms-flex:1 0 auto; */
-            padding:10px;
-            overflow:auto;
-            border:2px solid #428bca;
-        }
-
-        header.crimson {
-            background: crimson;
-        }
-        div#content.crimson {
-            border-color: crimson;
-        }
-        #collapsable {
-        	display:none;
+			/* -ms-flex:1 0 auto; */
+			padding:10px;
+			overflow:auto;
+			border:2px solid {{bgcolor}};
+		}
+		
+		#collapsable {
+			display:none;
 			height:40px;
 			width:40px;
-        }
-        </style>
+		}
+		</style>
 		<div id="panel">
-			<header class="{{class}}"><span>{{heading}}</span> <core-icon icon="custom-icons:zdk-expand" id="collapsable" style="fill:{{collapsecolor}}"></header>
-			<div id="content" class="{{class}}">
+			<header id="heading" ><span>{{heading}}</span> <core-icon icon="custom-icons:zdk-expand" id="collapsable" style="fill:{{collapsecolor}}"></header>
+			<div id="content" >
 			        <content></content>
 			</div>
 		</div>
-    </template>
-    <script>
-    Polymer('zdk-panel', {
+	</template>
+	<script>
+	Polymer('zdk-panel', {
 		height:"",
 		collapsable:false,
 		collapsed:false,
 		collapsecolor:"white",
+		bgcolor:"#428bca",
+		color:"white",
 		ready: function() {
+			var that = this;
 			if(!this.height) {
 				this.$.content.style["-ms-flex"] = "none";
 			} else {
@@ -115,8 +112,8 @@
 				}
 				this.$.collapsable.icon = "custom-icons:"+ (this.collapsed?"zdk-collapse":"zdk-expand");
 			}
-			var that = this;
-			this.$.collapsable.addEventListener("click",function() { that.toggleCollapse() },false);
+			this.$.heading.addEventListener("click",function() { that.toggleCollapse() },false);
+			//this.$.collapsable.addEventListener("click",function() { that.toggleCollapse() },false);
 		},
 		heightChanged: function(oldValue, newValue) {},
 		toggleCollapse: function() {
