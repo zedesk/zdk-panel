@@ -1,3 +1,6 @@
+# v0.2.1
+
+ - FIX color, bgcolor and height properties for Firefox and IE
 
 # v0.2.0
 
