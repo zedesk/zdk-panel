@@ -20,7 +20,7 @@
 <polymer-element name="zdk-panel" attributes="heading height bgcolor color collapsable collapsed collapsecolor">
 	<template>
 		<style>
-		:host { 
+		:host {
 			margin-bottom:10px;
 			display:block;
 			background:white;
@@ -41,9 +41,9 @@
 
 		header {
 			height: 40px;
-			color: {{color}};
+			color: white;
 			padding-left: 10px;
-			background: {{bgcolor}};
+			background: #428bca;
 			-moz-user-select:-moz-none;
 			-webkit-user-select:none;
 			-ms-user-select: none;
@@ -54,6 +54,7 @@
 			align-items: center;
 			-ms-flex-align:center;
 			-webkit-align-items:center;
+			box-sizing:border-box;
 		}
 		header > span {
 			display:inline-block;
@@ -68,12 +69,12 @@
 			-webkit-flex:1;
 			-ms-flex:1;
 			flex:1;
-			/* -ms-flex:1 0 auto; */
 			padding:10px;
 			overflow:auto;
-			border:2px solid {{bgcolor}};
+			border:2px solid #428bca;
+			box-sizing:border-box;
 		}
-		
+
 		#collapsable {
 			display:none;
 			height:40px;
@@ -97,11 +98,22 @@
 		color:"white",
 		ready: function() {
 			var that = this;
-			if(!this.height) {
+			this.$.heading.style.background = this.bgcolor;
+			this.$.heading.style.color = this.color;
+			this.$.content.style.borderColor = this.bgcolor;
+			console.log( "height ",this.height, " style.height ", this.style.height, this.getAttribute("style") );
+			if(!this.height && !this.style.height ) {
 				this.$.content.style["-ms-flex"] = "none";
 			} else {
-				this.$.content.style.height = (parseInt(this.height,10)-40)+"px";
-				this.$.content.style["-ms-flex-preferred-size"] = (parseInt(this.height,10)-40)+"px";
+				if( this.style.height && !this.height ) {
+					this.height = parseInt(this.style.height,10);
+				}
+				if( this.collapsable && this.collapsed ) {
+					this.style.height = parseInt(this.height,10)+"px";
+				} else {
+					this.style.height = "40px";
+				}
+				this.$.content.style["-ms-flex-preferred-size"] = (parseInt(this.height,10)-50)+"px";
 			}
 			if( this.collapsable) {
 				this.$.collapsable.style.display = "block";
@@ -115,7 +127,22 @@
 			this.$.heading.addEventListener("click",function() { that.toggleCollapse() },false);
 			//this.$.collapsable.addEventListener("click",function() { that.toggleCollapse() },false);
 		},
-		heightChanged: function(oldValue, newValue) {},
+		heightChanged: function(oldValue, newValue) {
+			console.log("newValue ",newValue," style.height ",this.style.height );
+			if(!this.height && !this.style.height ) {
+				this.$.content.style["-ms-flex"] = "none";
+			} else {
+				if( this.style.height && !this.height ) {
+					this.height = parseInt(this.style.height,10);
+				}
+				if( this.collapsable && this.collapsed ) {
+					this.style.height = parseInt(this.height,10)+"px";
+				} else {
+					this.style.height = "40px";
+				}
+				this.$.content.style["-ms-flex-preferred-size"] = (parseInt(this.height,10)-50)+"px";
+			}
+		},
 		toggleCollapse: function() {
 			this.collapsedChanged(this.collapsed,!this.collapsed);
 			this.$.collapsable.icon = "custom-icons:"+ (this.collapsed?"zdk-collapse":"zdk-expand");
@@ -126,9 +153,11 @@
 				this.setAttribute("collapsed",newValue);
 				if( this.collapsed ) {
 					this.$.content.style.display = "none";
+					this.style.height = "40px";
 				} else {
 					this.$.content.style.display = "block";
 					if(this.height) {
+						this.style.height = parseInt(this.height,10)+"px";
 						this.$.content.style.height = (parseInt(this.height,10)-40)+"px";
 						this.$.content.style["-ms-flex"] = "none";
 					} else {
@@ -137,6 +166,6 @@
 				}
 			}
 		}
-    });
-    </script>
+	});
+	</script>
 </polymer-element>
