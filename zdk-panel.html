@@ -101,7 +101,6 @@
 			this.$.heading.style.background = this.bgcolor;
 			this.$.heading.style.color = this.color;
 			this.$.content.style.borderColor = this.bgcolor;
-			console.log( "height ",this.height, " style.height ", this.style.height, this.getAttribute("style") );
 			if(!this.height && !this.style.height ) {
 				this.$.content.style["-ms-flex"] = "none";
 			} else {
@@ -125,10 +124,8 @@
 				this.$.collapsable.icon = "custom-icons:"+ (this.collapsed?"zdk-collapse":"zdk-expand");
 			}
 			this.$.heading.addEventListener("click",function() { that.toggleCollapse() },false);
-			//this.$.collapsable.addEventListener("click",function() { that.toggleCollapse() },false);
 		},
 		heightChanged: function(oldValue, newValue) {
-			console.log("newValue ",newValue," style.height ",this.style.height );
 			if(!this.height && !this.style.height ) {
 				this.$.content.style["-ms-flex"] = "none";
 			} else {
@@ -148,6 +145,7 @@
 			this.$.collapsable.icon = "custom-icons:"+ (this.collapsed?"zdk-collapse":"zdk-expand");
 		},
 		collapsedChanged: function(oldValue, newValue) {
+			if( oldValue === newValue ) { return; }
 			if( this.collapsable ) {
 				this.collapsed = newValue;
 				this.setAttribute("collapsed",newValue);
@@ -155,14 +153,15 @@
 					this.$.content.style.display = "none";
 					this.style.height = "40px";
 				} else {
-					this.$.content.style.display = "block";
 					if(this.height) {
 						this.style.height = parseInt(this.height,10)+"px";
 						this.$.content.style.height = (parseInt(this.height,10)-40)+"px";
 						this.$.content.style["-ms-flex"] = "none";
 					} else {
+						this.style.height = null;
 						this.$.content.style["-ms-flex"] = "none";
 					}
+					this.$.content.style.display = "block";
 				}
 			}
 		}
