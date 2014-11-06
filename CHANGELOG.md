@@ -1,3 +1,7 @@
+# 0.2.2
+
+ - FIX : height when expanding a panel without height
+
 # v0.2.1
 
  - FIX color, bgcolor and height properties for Firefox and IE
