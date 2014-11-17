@@ -1,12 +1,16 @@
-# 0.2.2
+__0.3.0__
+
+ - update polymer to 0.5.x
+
+__0.2.2__
 
  - FIX : height when expanding a panel without height
 
-# v0.2.1
+__v0.2.1__
 
  - FIX color, bgcolor and height properties for Firefox and IE
 
-# v0.2.0
+__v0.2.0__
 
  - Adds `color` and `bgcolor` properties to control the aspect of the panel
  - remove `class` property
